@@ -60,7 +60,7 @@ jobs:
               - release_build.txt
 
   build:
-    <<: *container_python
+    machine: true
     working_directory: /tmp/workspaces/build
     steps:
       - attach_workspace:
