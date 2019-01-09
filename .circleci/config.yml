@@ -1,0 +1,66 @@
+version: 2
+aliases:
+  -
+  # @see https://tox.readthedocs.io/en/latest/install.html
+  # Install tox required system dependencies
+  - &run_task_install_tox_dependencies
+    run:
+      name: install tox dependencies
+      command: |
+        sudo apt-get -qq update
+        sudo apt install -y build-essential libssl-dev libpython-dev python python-pip
+        sudo pip install tox
+
+  # Configure git user settings
+  # @see https://help.github.com/articles/setting-your-username-in-git/
+  - &run_task_configure_git
+    run:
+      name: configure git set global settings
+      command: |
+        git config --global user.email "$GIT_AUTHOR_EMAIL"
+        git config --global user.name "${CIRCLE_USERNAME}"
+
+  # @see https://circleci.com/docs/2.0/language-python/
+  # Used container for python based uilds
+  - &container_python
+    docker:
+      - image: circleci/python:3.6.4
+
+  check_grade_up_build:
+    <<: *container_python
+    working_directory: /tmp/workspaces/build
+    steps:
+      - *run_task_configure_git
+      - *run_task_install_tox_dependencies
+      - checkout
+      - run:
+          name: install bumpversion
+          command: |
+            sudo pip install bumpversion
+      - run:
+          name: check is release build
+          command: |
+            GIT_COMMIT_DESC=$(git log --format=%B -n 1 $CIRCLE_SHA1)
+            echo $GIT_COMMIT_DESC
+            if [[ $GIT_COMMIT_DESC =~ "GradeUP" ]] && [[ $CIRCLE_BRANCH == "develop" ]];
+            then
+              echo "match"
+              currentVersion=$(bumpversion --allow-dirty --dry-run --list release | grep new_version | sed -r s,"^.*=",,)
+              bumpversion --commit release
+              git checkout -b release/v$currentVersion-pre
+              git checkout develop
+              bumpversion --commit minor
+              echo "v$currentVersion-pre" > /tmp/workspaces/release_build.txt
+            else
+               echo "classic build"
+            fi
+      - persist_to_workspace:
+          root: /tmp/workspaces
+          paths:
+              - build/*
+              - release_build.txt
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - check_grade_up_build
