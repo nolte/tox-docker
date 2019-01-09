@@ -73,7 +73,7 @@ jobs:
       - run:
           name: execute tox
           command: |
-            tox
+            sudo tox
 
 workflows:
   version: 2
