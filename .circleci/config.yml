@@ -58,8 +58,24 @@ jobs:
           paths:
               - build/*
               - release_build.txt
+
+  build:
+    <<: *container_python
+    working_directory: /tmp/workspaces/build
+    steps:
+      - attach_workspace:
+          at: /tmp/workspaces
+      - *run_task_install_tox_dependencies
+      - run:
+          name: execute tox
+          command: |
+            tox
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - check_grade_up_build
+      - build:
+          requires:
+            - check_grade_up_build
