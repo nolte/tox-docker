@@ -1,6 +1,5 @@
 version: 2
 aliases:
-  -
   # @see https://tox.readthedocs.io/en/latest/install.html
   # Install tox required system dependencies
   - &run_task_install_tox_dependencies
