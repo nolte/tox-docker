@@ -86,9 +86,9 @@ jobs:
           command: |
             sudo tox
       - store_artifacts:
-          path: /tmp/workspaces/.tox/dist/
+          path: /tmp/workspaces/build/.tox/dist/
       - persist_to_workspace:
-          root: /tmp/workspaces/.tox
+          root: /tmp/workspaces/build/.tox
           paths:
               - dist
 
