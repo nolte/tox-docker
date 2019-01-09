@@ -85,6 +85,12 @@ jobs:
           name: execute tox
           command: |
             sudo tox
+      - store_artifacts:
+          path: /tmp/workspaces/.tox/dist/
+      - persist_to_workspace:
+          root: /tmp/workspaces/.tox
+          paths:
+              - dist
 
 workflows:
   version: 2
