@@ -72,12 +72,11 @@ jobs:
             sudo sh -c 'echo "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu trusty main" >> /etc/apt/sources.list.d/python.list' && \
             sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776 && \
             sudo apt-get update -q && \
-            sudo apt-get install -y curl git \
+            sudo apt-get install -q -y curl git \
                 python2.7 python2.7-dev libpython2.7-dev \
                 python3.4 python3.4-dev libpython3.4-dev \
                 python3.5 python3.5-dev libpython3.5-dev \
-                python3.6 python3.6-dev libpython3.6-dev \
-                python3.7 python3.7-dev libpython3.7-dev
+                python3.6 python3.6-dev libpython3.6-dev
       - run:
           name: install the project
           command: |
