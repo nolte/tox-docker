@@ -69,7 +69,7 @@ jobs:
       - run:
           name: install the project
           command: |
-            pip install -e ${CIRCLE_WORKING_DIRECTORY}
+            sudo pip install -e ${CIRCLE_WORKING_DIRECTORY}
       - run:
           name: execute tox
           command: |
