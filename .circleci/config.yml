@@ -67,6 +67,10 @@ jobs:
           at: /tmp/workspaces
       - *run_task_install_tox_dependencies
       - run:
+          name: install the project
+          command: |
+            pip install -e ${CIRCLE_WORKING_DIRECTORY}
+      - run:
           name: execute tox
           command: |
             tox
