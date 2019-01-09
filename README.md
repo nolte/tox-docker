@@ -1,4 +1,4 @@
-# tox-docker 
+# tox-docker
 
 A [tox](https://tox.readthedocs.io/en/latest/) plugin which runs one or
 more [Docker](https://www.docker.com/) containers during the test run.
@@ -30,6 +30,13 @@ your test suite as it runs, as ordinary environment variables:
     dockerenv =
         POSTGRES_USER=username
         POSTGRES_DB=dbname
+    dockervolumes =
+        {toxinidir}/test-it/test-index.html=/usr/share/nginx/html/index.html
+
+For mounting volumes you can use the `dockervolumes` multi-line list. The Key
+is the path at the Host Machine and the value is represent the path in the Container.
+The Mounts will append to all started containers, at the moment, like the `dockerenv`
+Attributes.
 
 ## Port Mapping
 

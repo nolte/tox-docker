@@ -1,14 +1,16 @@
 language: python
 services:
     - docker
-python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-env:
-  matrix:
-#    - SCENARIO_NAME=py27-test
-    - SCENARIO_NAME=test
+matrix:
+  include:
+  - python: 2.7
+    env: SCENARIO_NAME='test,testit'
+  - python: 3.5
+    env: SCENARIO_NAME='test,testit'
+  - python: 3.6
+    env: SCENARIO_NAME='test,testit'
+  - python: 3.6
+    env: SCENARIO_NAME='flake8,fix_lint,docs'
 install:
   - pip install tox-travis
   - pip install -e ${TRAVIS_BUILD_DIR}
