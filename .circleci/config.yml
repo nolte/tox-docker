@@ -8,7 +8,7 @@ aliases:
       command: |
         sudo apt-get -qq update
         sudo apt install -y build-essential libssl-dev libpython-dev python python-pip
-        virtualenv ./venv
+        virtualenv ${HOME}/venv
         . ${HOME}/venv/bin/activate
         pip install tox
 
