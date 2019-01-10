@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tox-docker &mdash; tox-docker  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+ 
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> tox-docker
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">tox-docker</a><ul>
+<li><a class="reference internal" href="#usage-and-installation">Usage and Installation</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#port-mapping">Port Mapping</a><ul>
+<li><a class="reference internal" href="#changelog">Changelog</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">tox-docker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>tox-docker</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tox-docker">
+<h1>tox-docker<a class="headerlink" href="#tox-docker" title="Permalink to this headline">¶</a></h1>
+<p>A <a class="reference external" href="https://tox.readthedocs.io/en/latest/">tox</a> plugin which runs one or
+more <a class="reference external" href="https://www.docker.com/">Docker</a> containers during the test run.</p>
+<a class="reference external image-reference" href="https://travis-ci.org/tox-dev/tox-docker"><img alt="build status" src="https://travis-ci.org/tox-dev/tox-docker.svg?branch=master" /></a>
+<div class="section" id="usage-and-installation">
+<h2>Usage and Installation<a class="headerlink" href="#usage-and-installation" title="Permalink to this headline">¶</a></h2>
+<p>Tox loads all plugins automatically. It is recommended that you install the
+tox-docker plugin into the same Python environment as you install tox into,
+whether that’s a virtualenv, etc.</p>
+<p>You do not need to do anything special when running tox to invoke
+tox-docker. You do need to configure your project to request docker
+instances (see “Configuration” below).</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>In the <code class="docutils literal notranslate"><span class="pre">testenv</span></code> section, list the Docker images you want to include in
+the <code class="docutils literal notranslate"><span class="pre">docker</span></code> multi-line-list. Be sure to include the version tag.</p>
+<p>You can include environment variables to be passed to the docker container
+via the <code class="docutils literal notranslate"><span class="pre">dockerenv</span></code> multi-line list. These will also be made available to
+your test suite as it runs, as ordinary environment variables:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span><span class="k">[testenv]</span>
+<span class="na">docker</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    postgres:9-alpine</span>
+<span class="na">dockerenv</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    POSTGRES_USER=username</span>
+<span class="s">    POSTGRES_DB=dbname</span>
+<span class="na">dockervolumes</span> <span class="o">=</span><span class="s"></span>
+<span class="s">    {toxinidir}/test-it/test-index.html=/usr/share/nginx/html/index.html</span>
+</pre></div>
+</div>
+<p>For mounting volumes you can use the <code class="docutils literal notranslate"><span class="pre">dockervolumes</span></code> multi-line list. The Key
+is the path at the Host Machine and the value is represent the path in the Container.
+The Mounts will append to all started containers, at the moment, like the <code class="docutils literal notranslate"><span class="pre">dockerenv</span></code>
+Attributes.</p>
+</div>
+<div class="section" id="port-mapping">
+<h2>Port Mapping<a class="headerlink" href="#port-mapping" title="Permalink to this headline">¶</a></h2>
+<p>tox-docker runs docker with the “publish all ports” option. Any port the
+container exposes will be made available to your test suite via environment
+variables of the form <code class="docutils literal notranslate"><span class="pre">&lt;image-basename&gt;_&lt;exposed-port&gt;_&lt;proto&gt;</span></code>. For
+instance, for the postgresql container, there will be an environment
+variable <code class="docutils literal notranslate"><span class="pre">POSTGRES_5432_TCP</span></code> whose value is the ephemeral port number that
+docker has bound the container’s port 5432 to.</p>
+<p>Likewise, exposed UDP ports will have environment variables like
+<code class="docutils literal notranslate"><span class="pre">TELEGRAF_8092_UDP</span></code> whose value is the ephemeral port number that docker has
+bound. NB! Since it’s not possible to check whether UDP port is open it’s
+just mapping to environment variable without any checks that service up and
+running.</p>
+<p><a class="reference external" href="https://travis-ci.org/nolte/tox-docker"><img alt="Travis CI build status" src="https://travis-ci.org/nolte/tox-docker.svg?branch=develop" /></a> <a class="reference external" href="https://circleci.com/gh/nolte/tox-docker"><img alt="CircleCI build status" src="https://circleci.com/gh/nolte/tox-docker.svg?style=svg" /></a> <a class="reference external" href="https://www.codefactor.io/repository/github/nolte/tox-docker"><img alt="CodeFactor" src="https://www.codefactor.io/repository/github/nolte/tox-docker/badge" /></a> <a class="reference external" href="https://tox-docker.readthedocs.io/en/stable/?badge=stable"><img alt="Documentation Status" src="https://readthedocs.org/projects/tox-docker/badge/?version=latest" /></a></p>
+<div class="section" id="changelog">
+<h3>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>added <code class="docutils literal notranslate"><span class="pre">dockervolumes</span></code> feature</li>
+<li>add static code checkt to the build process</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+<div class="github-fork-ribbon-wrapper right">
+  <div class="github-fork-ribbon">
+    <a href="https://github.com/tox-dev/tox-docker">Fork me at GitHub</a>
+  </div>
+</div>
+ 
+
+
+</body>
+</html>
