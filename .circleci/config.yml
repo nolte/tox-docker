@@ -68,7 +68,29 @@ aliases:
       command: |
         LAST_VERSION="$(curl https://${GITHUB_TOKEN}@api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/releases/latest | jq -r '.tag_name' )"
         echo $LAST_VERSION > /tmp/workspaces/last_release.txt
+
+  - &run_task_push_github_page
+    run:
+      command: |
+        git clone $CIRCLE_REPOSITORY_URL --branch gh-pages --single-branch /tmp/ghpage
+        cd /tmp/ghpage
+        git rm -rf .
+        cp -r /tmp/workspaces/html/. /tmp/ghpage
+        git add -A
+        git commit -m "[ci skip] Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+        git push origin gh-pages
 jobs:
+  publishghpage:
+    <<: *container_python
+    working_directory: /tmp/workspaces/html
+    steps:
+      - attach_workspace:
+          at: /tmp/workspaces
+      - *run_task_configure_git
+      - *run_task_add_key
+      - *run_task_add_gh_known_hosts
+      - *run_task_push_github_page
+
   # generate a changelog from existing github commits/pull requests
   # using https://github.com/ferrarimarco/docker-github-changelog-generator as generate container
   # the container wraps https://github.com/github-changelog-generator/github-changelog-generator
@@ -188,5 +210,8 @@ workflows:
           requires:
             - check_grade_up_build
       - generate-changelog:
+          requires:
+            - build
+      - publishghpage:
           requires:
             - build
