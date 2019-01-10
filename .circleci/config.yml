@@ -91,7 +91,7 @@ jobs:
           root: /tmp/workspaces/build/.tox
           paths:
               - dist
-              - docs/tmp/html
+              - docs/tmp/html/
 
 workflows:
   version: 2
