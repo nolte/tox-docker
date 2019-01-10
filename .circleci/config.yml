@@ -169,6 +169,7 @@ jobs:
       - run:
           name: execute tox
           command: |
+            . ${HOME}/venv/bin/activate
             tox
       - store_artifacts:
           path: /tmp/workspaces/build/.tox/dist/
