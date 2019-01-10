@@ -8,7 +8,7 @@ See full documentation in the README_.
 .. _Docker: https://www.docker.com/
 .. _README: https://github.com/tox-dev/tox-docker/blob/master/README.md
 """
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name="tox-docker",
@@ -17,6 +17,8 @@ setup(
     url="https://github.com/tox-dev/tox-docker",
     maintainer="Dan Crosta",
     maintainer_email="dcrosta@late.am",
+    package_dir={"": "src"},
+    packages=find_packages("src", exclude=["test"]),  # <- test is excluded
     install_requires=["docker>=2.3.0,<3.0", "tox>=2.7.0,<4.0"],
     py_modules=["tox_docker"],
     entry_points={"tox": ["docker = tox_docker"]},
