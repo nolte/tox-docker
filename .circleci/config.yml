@@ -9,7 +9,7 @@ aliases:
         sudo apt-get -qq update
         sudo apt install -y build-essential libssl-dev libpython-dev python python-pip
         virtualenv ./venv
-        . venv/bin/activate
+        . ${HOME}/venv/bin/activate
         pip install tox
 
   # Configure git user settings
@@ -82,7 +82,7 @@ jobs:
       - run:
           name: install the project
           command: |
-            . venv/bin/activate
+            . ${HOME}/venv/bin/activate
             pip install -e ${CIRCLE_WORKING_DIRECTORY}
       - run:
           name: execute tox
