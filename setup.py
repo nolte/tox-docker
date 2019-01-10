@@ -18,7 +18,7 @@ setup(
     maintainer="Dan Crosta",
     maintainer_email="dcrosta@late.am",
     package_dir={"": "src"},
-    packages=find_packages("src", exclude=["test"]),  # <- test is excluded
+    packages=find_packages("src"),
     install_requires=["docker>=2.3.0,<3.0", "tox>=2.7.0,<4.0"],
     py_modules=["tox_docker"],
     entry_points={"tox": ["docker = tox_docker"]},
