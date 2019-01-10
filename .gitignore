@@ -1,6 +1,0 @@
-_version.py
-version.txt
-*.pyc
-.tox
-.eggs
-tox_docker.egg-info
