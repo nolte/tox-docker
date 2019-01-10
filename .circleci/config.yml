@@ -8,7 +8,9 @@ aliases:
       command: |
         sudo apt-get -qq update
         sudo apt install -y build-essential libssl-dev libpython-dev python python-pip
-        sudo pip install tox
+        virtualenv ./venv
+        . venv/bin/activate
+        pip install tox
 
   # Configure git user settings
   # @see https://help.github.com/articles/setting-your-username-in-git/
@@ -80,11 +82,12 @@ jobs:
       - run:
           name: install the project
           command: |
-            sudo pip install -e ${CIRCLE_WORKING_DIRECTORY}
+            . venv/bin/activate
+            pip install -e ${CIRCLE_WORKING_DIRECTORY}
       - run:
           name: execute tox
           command: |
-            sudo tox
+            tox
       - store_artifacts:
           path: /tmp/workspaces/build/.tox/dist/
       - persist_to_workspace:
