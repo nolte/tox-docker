@@ -23,5 +23,5 @@ setup(
     py_modules=["tox_docker"],
     entry_points={"tox": ["docker = tox_docker"]},
     setup_requires=["vcversioner"],
-    version="1.3.0-dev",
+    version="1.2.0-dev",
 )
