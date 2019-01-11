@@ -233,10 +233,11 @@ jobs:
             git checkout master
             git merge ${CIRCLE_BRANCH}
             echo "merge to master"
+      - *run_task_load_current_version_bumpversion_cfg
       - run:
           name: create release tag
           command: |
-            CURRENT_VERSION="$(cat /tmp/workspaces/build/version.txt)"
+            CURRENT_VERSION="$(cat /tmp/workspaces/current_version.txt)"
             git tag v$CURRENT_VERSION
             git push origin v$CURRENT_VERSION
 
