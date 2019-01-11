@@ -22,9 +22,7 @@ class ToxDockerIntegrationNginxTest(unittest.TestCase):
 
     def test_it_exposes_the_port(self):
         # the nginx image we use exposes port 80
-        url = "http://{host}:{port}/".format(
-            host=os.environ["NGINX_HOST"], port=os.environ["NGINX_80_TCP"]
-        )
+        url = "http://{host}:{port}/".format(host=os.environ["NGINX_HOST"], port=os.environ["NGINX_80_TCP"])
         response = urlopen(url)
         self.assertEqual(200, response.getcode())
 
